@@ -5,6 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qalab"
 version = "0.1.0"
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
