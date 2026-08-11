@@ -72,3 +72,26 @@ def tensor_product(a, b):
         array([1, 0, 0, 0])
     """
     return np.kron(a,b)
+
+#expectation_value
+def expectation_value(state , operator):
+    """
+    Calculates the expectation value of an operator for a given quantum state.
+    
+    Args:
+        state (numpy.ndarray): The state vector of the quantum system.
+        operator (numpy.ndarray): The matrix representing the observable operator.
+        
+    Returns:
+        float: The calculated expectation value (as a real number).
+        
+    Example:
+        >>> import numpy as np
+        >>> state_0 = np.array([1, 0])
+        >>> pauli_z = np.array([[1, 0], 
+        ...                     [0, -1]])
+        >>> expectation_value(state_0, pauli_z)
+        1.0
+    """
+    result = operator @ state 
+    return inner_product(state , result)

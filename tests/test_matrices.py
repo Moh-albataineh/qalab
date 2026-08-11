@@ -1,5 +1,8 @@
 import numpy as np 
-from qalab.verification.matrices import is_hermitian , is_unitary
+from qalab.verification.matrices import (
+    is_hermitian,
+    is_unitary
+    )
 
 #is_hermitian 
 def test_is_hermitian_True():

@@ -1,6 +1,11 @@
 import pytest
 import numpy as np 
-from qalab.math.linear_algebra import inner_product , normalize , tensor_product
+from qalab.math.linear_algebra import (
+    inner_product,
+    normalize,
+    tensor_product,
+    expectation_value
+    )
 
 #inner_product
 def test_inner_product():
@@ -47,3 +52,16 @@ def test_tensor_product_comlpex():
     ketA = np.array([1j,0])
     ketB = np.array([0,1])
     assert np.allclose(tensor_product(ketA,ketB),np.array([0,1j,0,0])) 
+    
+#expectation_value
+def test_expectation_value():
+    state = np.array([0,1])
+    matrix = np.array([[1,0],
+                       [1,-1]])
+    assert np.isclose(expectation_value(state , matrix), -1.0)
+
+def test_expectation_value_complex():
+    state = np.array([1, 1j]) / np.sqrt(2)
+    matrix = np.array([[0,-1j],
+                       [1j,0]])
+    assert np.isclose(expectation_value(state , matrix), 1.0)
