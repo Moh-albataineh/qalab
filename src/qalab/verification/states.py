@@ -44,3 +44,4 @@ def global_phase_equivalent(a: np.ndarray , b: np.ndarray) -> bool:
     if not is_normalized(a) or not is_normalized(b):
         return False 
     return np.isclose (np.abs(inner_product(a,b)),1.0)
+ 
