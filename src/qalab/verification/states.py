@@ -1,7 +1,7 @@
 import numpy as np
 from qalab.math.linear_algebra import inner_product
 
-def is_normalized(state):
+def is_normalized(state: np.ndarray) -> bool:
     """
     Checks if a quantum state vector is normalized (its norm equals 1).
     

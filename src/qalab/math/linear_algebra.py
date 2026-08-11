@@ -28,7 +28,7 @@ def inner_product(a, b):
     return np.sum(x)
 
 #normalize
-def normalize (vector):
+def normalize (vector: np.ndarray) -> np.ndarray:
     """
     Normalizes a vector to have a length (norm) of 1.
     
