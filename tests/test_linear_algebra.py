@@ -1,6 +1,6 @@
 import pytest
 import numpy as np 
-from qalab.math.linear_algebra import inner_product , normalize
+from qalab.math.linear_algebra import inner_product , normalize , tensor_product
 
 #inner_product
 def test_inner_product():
@@ -36,3 +36,14 @@ def test_normalize_zero_vector_raises_error():
       ket = np.array([0,0])
       with pytest.raises(ValueError):
           normalize(ket)
+          
+#tensor_product
+def test_tensor_product():
+    ket0 = np.array([1,0])
+    ket1 = np.array([0,1])
+    assert np.allclose(tensor_product(ket1,ket0),np.array([0,0,1,0]))
+   
+def test_tensor_product_comlpex():
+    ketA = np.array([1j,0])
+    ketB = np.array([0,1])
+    assert np.allclose(tensor_product(ketA,ketB),np.array([0,1j,0,0])) 
