@@ -1,5 +1,6 @@
 import numpy as np 
 
+#x_gate
 def x_gate():
     """
     Generates the Pauli-X quantum gate (Quantum NOT gate).
@@ -19,3 +20,10 @@ def x_gate():
                   [1,0]],
                  dtype=complex)
     return X
+
+#z_gate
+def z_gate():
+    Z = np.array([[1,0],
+                  [0,-1]],
+                 dtype=complex)
+    return Z
