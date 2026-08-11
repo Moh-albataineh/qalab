@@ -1,6 +1,6 @@
 import numpy as np 
 
-def is_hermitian(matrix):
+def is_hermitian(matrix : np.ndarray) -> bool:
     """
     Checks if a matrix is Hermitian (equal to its conjugate transpose).
     
@@ -23,7 +23,7 @@ def is_hermitian(matrix):
     dagger = conj.T
     return np.allclose(dagger , matrix)
 
-def is_unitary(matrix):
+def is_unitary(matrix : np.ndarray) -> bool:
     """
     Checks if a matrix is unitary (U * U^dagger = Identity matrix).
     
