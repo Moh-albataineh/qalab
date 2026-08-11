@@ -21,7 +21,7 @@ def is_normalized(state: np.ndarray) -> bool:
     return  np.isclose(is_norm , 1.0)
 
 #global_phase_equivalent
-def global_phase_equivalent(a , b):
+def global_phase_equivalent(a: np.ndarray , b: np.ndarray) -> bool:
     """
     Checks if two quantum states are equivalent up to a global phase.
     

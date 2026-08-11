@@ -54,7 +54,7 @@ def normalize (vector: np.ndarray) -> np.ndarray:
     return vector / norm
 
 #tensor_product
-def tensor_product(a, b):
+def tensor_product(a: np.ndarray, b:np.ndarray) -> np.ndarray:
     """
     Computes the tensor (Kronecker) product of two arrays.
     
