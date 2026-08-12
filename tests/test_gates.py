@@ -8,6 +8,9 @@ from qalab.operators.gates import (
     h_gate ,
     s_gate ,
     t_gate ,
+    rx_gate,
+    ry_gate,
+    rz_gate,
     )
 
 #is_unitary
@@ -102,4 +105,29 @@ def test_t_gate_ket1():
 def test_t_gate_superposition():
     state = np.array([1,1]/np.sqrt(2))
     assert np.allclose(t_gate() @ state, np.array([1,np.exp((1j * np.pi)/4)]/np.sqrt(2)))
+
+#rx_gate 
+def test_rx_gate():     
+    assert np.allclose(rx_gate(np.pi),-1j * x_gate())
+
+#ry_gate 
+def test_ry_gate():     
+    assert np.allclose(ry_gate(np.pi),-1j * y_gate())
     
+#rz_gate 
+def test_rz_gate():     
+    assert np.allclose(rz_gate(np.pi),-1j * z_gate())
+
+#rotation_zero
+@pytest.mark.parametrize(
+    "rotation",
+    [rx_gate, ry_gate, rz_gate],
+)
+def test_rotation_zero_is_identity(rotation):
+    assert np.allclose(rotation(0), np.eye(2))
+    
+#rotations_are_unitary
+@pytest.mark.parametrize("rotation", [rx_gate, ry_gate, rz_gate])
+@pytest.mark.parametrize("theta", [0, np.pi / 3, np.pi, 2 * np.pi])
+def test_rotations_are_unitary(rotation, theta):
+    assert is_unitary(rotation(theta))

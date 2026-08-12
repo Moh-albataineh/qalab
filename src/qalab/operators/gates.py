@@ -95,3 +95,51 @@ def t_gate():
                   [0,np.exp((1j*np.pi)/4)]],
                  dtype=complex)
     return T
+
+def rx_gate(theta : float) -> np.ndarray:
+    """
+    Generates the Rotation-X (Rx) quantum gate.
+    
+    Applies a rotation of angle theta around the X-axis on the Bloch sphere.
+    
+    Args:
+        theta (float): The rotation angle in radians.
+        
+    Returns:
+        numpy.ndarray: A 2x2 complex matrix representing the Rx gate.
+    """
+    RX = np.array([[np.cos(theta/2),-1j * np.sin(theta/2)],
+                   [-1j * np.sin(theta/2),np.cos(theta/2)]])
+    return RX
+
+def ry_gate(theta : float) -> np.ndarray:
+    """
+    Generates the Rotation-Y (Ry) quantum gate.
+    
+    Applies a rotation of angle theta around the Y-axis on the Bloch sphere.
+    
+    Args:
+        theta (float): The rotation angle in radians.
+        
+    Returns:
+        numpy.ndarray: A 2x2 complex matrix representing the Ry gate.
+    """
+    RY = np.array([[np.cos(theta/2),-np.sin(theta/2)],
+                   [np.sin(theta/2), np.cos(theta/2)]])
+    return RY
+
+def rz_gate(theta : float) ->np.ndarray:
+    """
+    Generates the Rotation-Z (Rz) quantum gate.
+    
+    Applies a rotation of angle theta around the Z-axis on the Bloch sphere.
+    
+    Args:
+        theta (float): The rotation angle in radians.
+        
+    Returns:
+        numpy.ndarray: A 2x2 complex matrix representing the Rz gate.
+    """
+    RZ = np.array([[np.exp((-1j * theta)/2),0],
+                   [0,np.exp((1j * theta)/2)]])
+    return RZ
