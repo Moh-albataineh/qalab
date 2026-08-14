@@ -25,3 +25,25 @@ def sample_computational_basis(state , shots , seed=None):
     probs = probabilities(state)
     return rng.choice([0,1], shots , p=probs) 
 
+def z_expectation_from_samples(samples: np.ndarray) -> float:
+    """
+    Estimates the expectation value of the Z observable from measurement samples.
+
+    In the computational basis, a measurement outcome of 0 corresponds to the
+    +1 eigenvalue of the Pauli-Z operator, and an outcome of 1 corresponds 
+    to the -1 eigenvalue. This function maps the binary samples (0, 1) to the 
+    Z eigenvalues (+1, -1) using the transformation (1 - 2 * samples), and 
+    then calculates the average (mean) to estimate the expectation value <Z>.
+
+    Args:
+        samples (np.ndarray): An array of binary measurement outcomes (0s and 1s).
+
+    Returns:
+        float: The estimated expectation value <Z>, ranging from -1.0 to +1.0.
+
+    Example:
+        >>> samples = np.array([0, 0, 1, 0, 1])
+        >>> z_expectation_from_samples(samples)
+        0.2
+    """
+    return np.mean((1-2*samples))
