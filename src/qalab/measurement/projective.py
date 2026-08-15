@@ -1,5 +1,6 @@
 import numpy as np
 from qalab.states.state_vector import probabilities
+from qalab.operators.gates import h_gate , s_gate
 
 def sample_computational_basis(state , shots , seed=None):
     """
@@ -25,25 +26,26 @@ def sample_computational_basis(state , shots , seed=None):
     probs = probabilities(state)
     return rng.choice([0,1], shots , p=probs) 
 
-def z_expectation_from_samples(samples: np.ndarray) -> float:
-    """
-    Estimates the expectation value of the Z observable from measurement samples.
+def sample_pauli_basis(
+    state : np.ndarray,
+    basis : str,
+    shots : int,
+    seed = None
+) :
+    b = basis.upper()
+    
+    if b == "Z":
+        pass
+    elif b == "X":
+        state = h_gate() @ state
+    elif b == "Y":
+        s_dagger = np.conj(s_gate()).T
+        state = h_gate() @ s_dagger @ state 
+    else :
+        raise ValueError("basis should be 'X', 'Y', or 'Z'")
+        
+    return sample_computational_basis(state , shots , seed)
 
-    In the computational basis, a measurement outcome of 0 corresponds to the
-    +1 eigenvalue of the Pauli-Z operator, and an outcome of 1 corresponds 
-    to the -1 eigenvalue. This function maps the binary samples (0, 1) to the 
-    Z eigenvalues (+1, -1) using the transformation (1 - 2 * samples), and 
-    then calculates the average (mean) to estimate the expectation value <Z>.
-
-    Args:
-        samples (np.ndarray): An array of binary measurement outcomes (0s and 1s).
-
-    Returns:
-        float: The estimated expectation value <Z>, ranging from -1.0 to +1.0.
-
-    Example:
-        >>> samples = np.array([0, 0, 1, 0, 1])
-        >>> z_expectation_from_samples(samples)
-        0.2
-    """
-    return np.mean((1-2*samples))
+def pauli_expectation_from_samples(sampls):
+    return np.mean((1-2*sampls))
+    
