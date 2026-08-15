@@ -11,6 +11,7 @@ from qalab.operators.gates import (
     rx_gate,
     ry_gate,
     rz_gate,
+    u_gate
     )
 
 #is_unitary
@@ -131,3 +132,28 @@ def test_rotation_zero_is_identity(rotation):
 @pytest.mark.parametrize("theta", [0, np.pi / 3, np.pi, 2 * np.pi])
 def test_rotations_are_unitary(rotation, theta):
     assert is_unitary(rotation(theta))
+    
+#u_gate
+def test_u_gate_X():
+    gate = u_gate(np.pi, 0, np.pi)
+    assert np.allclose(gate , x_gate())
+    
+def test_u_gate_H():
+    gate = u_gate(np.pi/2, 0, np.pi)
+    assert np.allclose(gate , h_gate())
+        
+        
+def test_u_gate_S():
+    gate = u_gate(0, 0, np.pi/2)
+    assert np.allclose(gate , s_gate())
+    
+#u_gate_is_unitary
+@pytest.mark.parametrize("theta, phi, lam", [
+    (0, np.pi/2, 0),
+    (np.pi, np.pi, np.pi),
+    (np.pi/2, 0, np.pi/2)
+    
+])
+def test_u_gate_is_unitary(theta, phi, lam):
+    gate = u_gate(theta, phi, lam)
+    assert is_unitary(gate)

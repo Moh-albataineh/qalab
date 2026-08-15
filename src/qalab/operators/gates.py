@@ -143,3 +143,11 @@ def rz_gate(theta : float) ->np.ndarray:
     RZ = np.array([[np.exp((-1j * theta)/2),0],
                    [0,np.exp((1j * theta)/2)]])
     return RZ
+
+def u_gate(
+    theta: float,
+    phi: float,
+    lam: float,
+) -> np.ndarray:
+    return np.array([[np.cos(theta/2),           (-np.exp(1j*lam))*np.sin(theta/2)],
+              [(np.exp(1j*phi))*np.sin(theta/2), (np.exp(1j *(phi+lam)))*np.cos(theta/2)]])
