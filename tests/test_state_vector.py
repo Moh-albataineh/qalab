@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from qalab.verification.states import is_normalized
 from qalab.states.state_vector import probabilities , bloch_vector
+from qalab.verification.states import global_phase_equivalent
 
 #probabilities
 def test_probabilities_basis_state():
@@ -40,3 +41,18 @@ def test_bloch_vector_normalized():
     ])
     assert np.isclose(np.linalg.norm(bloch_vector(state)) , 1.0)
     
+#Global_phase
+def test_Global_phase_effect_probabilities():
+    state = np.array([1, 1]) / np.sqrt(2)
+    phased = 1j * state
+    assert np.allclose(probabilities(state), probabilities(phased))
+    assert np.allclose(bloch_vector(state), bloch_vector(phased))
+    assert global_phase_equivalent(state, phased)
+    
+#Relative_phase 
+def test_Relative_phase_effect():
+    plus = np.array([1, 1]) / np.sqrt(2)
+    minus = np.array([1, -1]) / np.sqrt(2)
+    assert np.allclose(probabilities(plus), probabilities(minus))
+    assert not np.allclose(bloch_vector(plus), bloch_vector(minus))
+    assert not global_phase_equivalent(plus, minus)
