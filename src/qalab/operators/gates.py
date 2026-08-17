@@ -60,6 +60,15 @@ def rz_gate(theta : float) ->np.ndarray:
                    [0,np.exp((1j * theta)/2)]])
     return RZ
 
+#cx_gate
+def cx_gate() ->np.ndarray:
+    CX = np.array([[1,0,0,0],
+                   [0,1,0,0],
+                   [0,0,0,1],
+                   [0,0,1,0]],
+                  dtype=complex)
+    return CX
+
 #u_gate
 def u_gate(
     theta: float,

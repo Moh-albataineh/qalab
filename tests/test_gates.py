@@ -1,5 +1,7 @@
 import numpy as np 
 import pytest
+from qalab.math.linear_algebra import tensor_product
+from qalab.states.state_vector import computational_basis_state
 from qalab.verification.matrices import is_unitary
 from qalab.operators.gates import (
     x_gate ,
@@ -11,6 +13,7 @@ from qalab.operators.gates import (
     rx_gate,
     ry_gate,
     rz_gate,
+    cx_gate,
     u_gate
     )
 
@@ -24,6 +27,7 @@ from qalab.operators.gates import (
         h_gate,
         s_gate,
         t_gate,
+        cx_gate
     ],
 )
 def test_single_qubit_gates_are_unitary(gate):
@@ -133,6 +137,22 @@ def test_rotation_zero_is_identity(rotation):
 def test_rotations_are_unitary(rotation, theta):
     assert is_unitary(rotation(theta))
     
+#cx_gate
+def test_cx_gate_basis():
+    ket00 = computational_basis_state("00")
+    ket10 = computational_basis_state("10")
+    ket11 = computational_basis_state("11")
+    assert np.allclose(cx_gate() @ ket00, ket00)
+    assert np.allclose(cx_gate() @ ket10, ket11)
+    
+def test_cx_gate_create_Ball():
+    ket00 = computational_basis_state("00")
+    Ball = np.array([1,0,0,1]/np.sqrt(2))
+    HI = tensor_product(h_gate(), np.eye(2))
+    state = HI @ ket00
+    assert np.allclose(cx_gate() @ state , Ball)
+    
+    
 #u_gate
 def test_u_gate_X():
     gate = u_gate(np.pi, 0, np.pi)
@@ -145,7 +165,7 @@ def test_u_gate_H():
         
 def test_u_gate_S():
     gate = u_gate(0, 0, np.pi/2)
-    assert np.allclose(gate , s_gate())
+    assert np.allclose(gate , s_gate())    
     
 #u_gate_is_unitary
 @pytest.mark.parametrize("theta, phi, lam", [
