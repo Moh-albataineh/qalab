@@ -1,7 +1,10 @@
 import numpy as np 
+import pytest
+from qalab.states.state_vector import computational_basis_state
 from qalab.verification.states import  (
     is_normalized,
-    global_phase_equivalent
+    global_phase_equivalent,
+    is_product_state
     )
 
 #is_normalized
@@ -42,4 +45,21 @@ def test_global_phase_equivalent_normalized():
     stateA = np.array([1,0])
     stateB = np.array([2,0])
     assert not global_phase_equivalent(stateA,stateB)
-        
+    
+#is_product_state
+def test_is_product_state_basis():
+    state = computational_basis_state("01")
+    assert is_product_state(state)
+    
+def test_is_product_state_superposition():
+    state = np.array([1,0,1,0]/np.sqrt(2))
+    assert is_product_state(state)
+    
+def test_is_product_state_Bell():
+    state = np.array([1,0,0,1]/np.sqrt(2))
+    assert not is_product_state(state)
+    
+def test_is_product_state_ValueError():
+    state = np.array([1,0])
+    with pytest.raises(ValueError):
+        is_product_state(state)
