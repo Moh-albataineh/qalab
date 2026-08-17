@@ -30,7 +30,7 @@ from qalab.operators.gates import (
         cx_gate
     ],
 )
-def test_single_qubit_gates_are_unitary(gate):
+def test_test_gates_are_unitary(gate):
     assert is_unitary(gate())
 
 #x_gate
