@@ -1,7 +1,7 @@
 import numpy as np 
 import pytest
 from qalab.verification.states import is_normalized
-from qalab.states.state_vector import probabilities , bloch_vector
+from qalab.states.state_vector import probabilities , bloch_vector , computational_basis_state
 from qalab.verification.states import global_phase_equivalent
 
 #probabilities
@@ -56,3 +56,27 @@ def test_Relative_phase_effect():
     assert np.allclose(probabilities(plus), probabilities(minus))
     assert not np.allclose(bloch_vector(plus), bloch_vector(minus))
     assert not global_phase_equivalent(plus, minus)
+    
+#computational_basis_state
+def test_computational_basis_state():
+    s = "01"
+    state1 = np.array([0,1,0,0])
+    state2 = computational_basis_state(s)
+    assert np.allclose(state1 , state2)
+    
+def test_computational_basis_state_Properties():
+    s = "101"
+    state = computational_basis_state(s)
+    assert len(state) == 8
+    assert state[5] == 1
+    
+def test_computational_basis_state_ValueError():
+    s = "012"
+    with pytest.raises(ValueError):
+        computational_basis_state(s)
+        
+def test_computational_basis_state_normalized():
+    s = "111"
+    state = computational_basis_state(s)
+    assert is_normalized(state)
+    
