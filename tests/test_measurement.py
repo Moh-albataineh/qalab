@@ -1,7 +1,9 @@
 import numpy as np 
 import pytest
-from qalab.math.linear_algebra import expectation_value
-from  qalab.operators.gates import x_gate, y_gate,z_gate
+from qalab.verification.states import is_product_state
+from qalab.states.state_vector import computational_basis_state
+from qalab.math.linear_algebra import expectation_value , tensor_product
+from  qalab.operators.gates import x_gate, y_gate,z_gate , h_gate , cx_gate
 from qalab.measurement.projective import (
     sample_computational_basis,
     pauli_expectation_from_samples,
@@ -28,13 +30,37 @@ def test_sample_computational_basis_seeds():
     samples = sample_computational_basis(state , shots , seed)
     count_0 = np.sum(samples == 0)
     count_0 = count_0 / shots
-    assert np.isclose(count_0 , 0.5 , atol=0.05)
+    assert np.isclose(count_0, 0.5, atol=0.05)
     
 def test_sample_computational_basis_raises_error():
     state = np.array([1,0])
     shots = -5 
     with pytest.raises(ValueError):
-        sample_computational_basis(state , shots)
+        sample_computational_basis(state, shots)
+        
+def test_sample_computational_basis_Ball():
+    ket00 = computational_basis_state("00")
+    HI = tensor_product(h_gate(), np.eye(2))
+    shots = 2000
+    state = HI @ ket00
+    Ball = cx_gate() @ state
+    samples = sample_computational_basis(Ball, shots, seed=1)
+    count_00 = np.sum(samples == 0)
+    count_11 = np.sum(samples == 3)
+    assert np.all(np.isin(samples, [0, 3]))
+    assert np.isclose(count_00/shots, 0.5 , atol=0.05)
+    assert np.isclose(count_11/shots, 0.5 , atol=0.05)
+    assert not is_product_state(Ball)
+    
+def test_sample_computational_basis_Ball_expectation():
+    Ball = np.array([1,0,0,1]/np.sqrt(2))
+    I = np.eye(2)
+    ZI = tensor_product(z_gate(), I)
+    IZ = tensor_product(I, z_gate())
+    ZZ = tensor_product(z_gate(), z_gate())
+    assert np.isclose(expectation_value(Ball, ZI), 0)
+    assert np.isclose(expectation_value(Ball, IZ), 0)
+    assert np.isclose(expectation_value(Ball, ZZ), 1)
         
 #sample_pauli_basis
 @pytest.mark.parametrize("state , basis , expected" , [

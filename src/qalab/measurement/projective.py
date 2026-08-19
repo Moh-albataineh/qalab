@@ -8,7 +8,8 @@ def sample_computational_basis(state , shots , seed=None):
     rng = np.random.default_rng(seed) #RNG not np.random.choice
     # Local RNG allows reproducible sampling with a seed.
     probs = probabilities(state)
-    return rng.choice([0,1], shots , p=probs) 
+    outcomes = np.arange(len(probs))
+    return rng.choice(outcomes, shots , p=probs) 
 
 def sample_pauli_basis(
     state : np.ndarray,
@@ -30,6 +31,18 @@ def sample_pauli_basis(
         
     return sample_computational_basis(state , shots , seed)
 
+from qalab.states.state_vector import computational_basis_state
+from qalab.math.linear_algebra import expectation_value , tensor_product
+from  qalab.operators.gates import x_gate, y_gate,z_gate , h_gate , cx_gate
+
 def pauli_expectation_from_samples(sampls):
     return np.mean((1-2*sampls))
+
+ket00 = computational_basis_state("00")
+HI = tensor_product(h_gate() , np.eye(2))
+shots = 2000
+state = HI @ ket00
+state = cx_gate() @ state
+samples = sample_computational_basis(state, shots, seed=1)
+print(np.isin(samples, [0, 3]))
     
