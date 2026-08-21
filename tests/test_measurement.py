@@ -58,9 +58,13 @@ def test_sample_computational_basis_Ball_expectation():
     ZI = tensor_product(z_gate(), I)
     IZ = tensor_product(I, z_gate())
     ZZ = tensor_product(z_gate(), z_gate())
+    XX = tensor_product(x_gate(), x_gate())
+    YY = tensor_product(y_gate(), y_gate())
     assert np.isclose(expectation_value(Ball, ZI), 0)
     assert np.isclose(expectation_value(Ball, IZ), 0)
     assert np.isclose(expectation_value(Ball, ZZ), 1)
+    assert np.isclose(expectation_value(Ball, XX), 1)
+    assert np.isclose(expectation_value(Ball, YY), -1)
         
 #sample_pauli_basis
 @pytest.mark.parametrize("state , basis , expected" , [
